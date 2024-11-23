@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Enter Meeting{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center text-dark mb-4">Enter Room</h2>
+    <form method="POST" action="{{ url_for('join_meeting') }}" class="mt-4">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="form-group mb-4">
+            <label for="roomID" class="form-label">Meeting Room ID</label>
+            <input type="text" id="roomID" name="roomID" class="form-control form-control-lg" placeholder="Enter Room ID" required>
+        </div>
+        <button type="submit" class="btn btn-success btn-lg w-100">Join Meet</button>
+    </form>
+</div>
+{% endblock %}

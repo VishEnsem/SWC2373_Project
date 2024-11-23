@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+<div class="mb-md-5 mt-md-4 pb-5">
+            <form action="{{ url_for('user_registration') }}" method="POST">
+                {{ form.csrf_token }}
+                {{ form.hidden_tag() }}
+
+                <h2 class="text-dark text-uppercase mb-4">Create Your Account</h2>
+                <p class="text-muted mb-4">Fill in the details below to sign up</p>
+
+
+                <div class="form-group mb-3">
+                    {{ form.email.label(class="form-label") }}
+                    {{ form.email(class="form-control form-control-md", id="email-address") }}
+                </div>
+
+                <div class="form-group mb-3">
+                    {{ form.username.label(class="form-label") }}
+                    {{ form.username(class="form-control form-control-md", id="username-field") }}
+                </div>
+
+                <div class="form-group mb-4">
+                    {{ form.password.label(class="form-label") }}
+                    {{ form.password(class="form-control form-control-md", id="password-field") }}
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg w-100">Sign Up</button>
+            </form>
+    </div>
+
+    <div>
+        <p class="mb-0">Already have an account? <a href="{{ url_for('login') }}" class="text-white-50 fw-bold">Sign In</a></p> 
+    </div>
+
+{% endblock %}

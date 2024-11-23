@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting Room</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div id="meeting-container"></div>
+    <div class="back-btn-container">
+        <a href="{{ url_for('index') }}" class="back-btn-link">
+            <button class="back-btn">Back to home</button>
+        </a>
+    </div>
+
+    <script src="https://unpkg.com/@zegocloud/zego-uikit-prebuilt/zego-uikit-prebuilt.js"></script>
+    <script>
+        window.onload = function () {
+            function extractUrlParams(url) {
+                let urlParams = new URLSearchParams(url.split('?')[1]);
+                let paramsObj = {};
+                for (const [key, value] of urlParams.entries()) {
+                    paramsObj[key] = value;
+                }
+                return paramsObj;
+            }
+
+            // Assign Room ID and User details
+            const roomID = extractUrlParams(window.location.href).roomID || Math.floor(Math.random() * 10000) + "";
+            const userID = Math.floor(Math.random() * 10000) + "";
+            const userName = "{{username}}";
+            const appID = 266020549;
+            const serverSecret = d2da807ed8f4ce30d2fd6717924f4864;
+
+            // Generate a token for testing
+            const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, userID, userName);
+
+            // Initialize the meeting room
+            const meetingInstance = ZegoUIKitPrebuilt.create(kitToken);
+            meetingInstance.joinRoom({
+                container: document.getElementById("meeting-container"),
+                sharedLinks: [{
+                    name: 'Room Link',
+                    url: window.location.protocol + '//' + window.location.host + window.location.pathname + '?roomID=' + roomID,
+                }],
+                scenario: {
+                    mode: ZegoUIKitPrebuilt.VideoConference,
+                },
+                turnOnMicrophoneWhenJoining: true,
+                turnOnCameraWhenJoining: true,
+                showMyCameraToggleButton: true,
+                showMyMicrophoneToggleButton: true,
+                showAudioVideoSettingsButton: true,
+                showScreenSharingButton: true,
+                showTextChat: true,
+                showUserList: true,
+                maxUsers: 2,
+                layout: "Auto",
+                showLayoutButton: false,
+            });
+        }
+    </script>
+</body>
+
+</html>
